@@ -1,0 +1,206 @@
+Using Python Dictionaries as NAPALM Outputs
+
+When working through the examples in this book, the preferred approach is to retrieve live data directly from network devices by using NAPALM. However, in some situations, it may not be possible or practical to use real equipment. For example, you might be experimenting with Python code on a personal system, developing examples offline, or teaching and learning in environments that lack dedicated lab hardware. In these cases, Python dictionaries that mirror the structure of NAPALM’s returned data provide a useful alternative. 
+By using predefined dictionaries that match the format of actual NAPALM method outputs, you can write, test, and understand Python programs exactly as if the data were from a live device. This allows you to focus on Python logic and data handling while maintaining consistency with real-world NAPALM workflows.
+
+In Example C-1, the dictionary device_facts is populated dynamically in a way that is similar to using live data from device.get_facts(). 
+
+Example C-1[em]NAPALM’s get_facts() Method
+
+from pprint import pprint
+
+device_facts = {
+                'fqdn': 'Router-R1.SSH-KEY.com',
+                'hostname': 'Router-R1',
+                'interface_list': [ 'GigabitEthernet0/0/0',
+                                    'GigabitEthernet0/0/1',
+                                    'GigabitEthernet0/0/2',
+                                    'GigabitEthernet0'],
+                'model': 'ISR4331/K9',
+                'os_version': 'ISR Software (X86_64_LINUX_IOSD-UNIVERSALK9-M),'      
+                              'Version 16.6.3, RELEASE SOFTWARE (fc8)',
+                'serial_number': 'FLM2229W1R6',
+                'uptime': 2820.0,
+                'vendor': 'Cisco'
+               }
+
+pprint(device_facts)
+
+Examples C-2 through C-7 provide other dictionary examples you can use.
+
+Example C-2[em]NAPALM’s get_environment() Method
+
+{'cpu': {0: {'%usage': 1.0}},
+ 'fans': {'invalid': {'status': True}},
+ 'memory': {'available_ram': 1845474744, 'used_ram': 282094448},
+ 'power': {'invalid': {'capacity': -1.0, 'output': -1.0, 'status': True}},
+ 'temperature': {'invalid': {'is_alert': False,
+                             'is_critical': False,
+                             'temperature': -1.0}}}
+
+Example C-3[em]NAPALM’s get_interfaces() Method
+
+{'GigabitEthernet0': {'description': '',
+                      'is_enabled': False,
+                      'is_up': False,
+                      'last_flapped': -1.0,
+                      'mac_address': '2C:73:A0:0A:6A:DF',
+                      'mtu': 1500,
+                      'speed': 1000.0},
+ 'GigabitEthernet0/0/0': {'description': 'Updated LAN interface using Netmiko',
+                          'is_enabled': True,
+                          'is_up': True,
+                          'last_flapped': -1.0,
+                          'mac_address': '2C:73:A0:0A:6A:50',
+                          'mtu': 1500,
+                          'speed': 100.0},
+ 'GigabitEthernet0/0/1': {'description': 'Updated interface to R2 using '
+                                         'Netmiko',
+                          'is_enabled': True,
+                          'is_up': True,
+                          'last_flapped': -1.0,
+                          'mac_address': '2C:73:A0:0A:6A:51',
+                          'mtu': 1500,
+                          'speed': 100.0},
+ 'GigabitEthernet0/0/2': {'description': '',
+                          'is_enabled': False,
+                          'is_up': False,
+                          'last_flapped': -1.0,
+                          'mac_address': '2C:73:A0:0A:6A:52',
+                          'mtu': 1500,
+                          'speed': 1000.0}}
+
+Example C-4[em]NAPALM’s get_interfaces_ip() Method
+
+{'GigabitEthernet0/0/0': {'ipv4': {'192.168.1.1': {'prefix_length': 24}},
+                          'ipv6': {'2001:db8:c0de:1::1': {'prefix_length': 64},
+                                   'fe80::1:1': {'prefix_length': 10}}},
+ 'GigabitEthernet0/0/1': {'ipv4': {'192.168.2.1': {'prefix_length': 24}},
+                          'ipv6': {'2001:db8:c0de:2::1': {'prefix_length': 64},
+                                   'fe80::2:1': {'prefix_length': 10}}}}
+
+Example C-5[em]NAPALM’s get_users() Method
+
+{'admin': {'level': 1, 'password': 'cisco', 'sshkeys': []},
+ 'admin2': {'level': 1,
+            'password': '$1$NeqH$H823UIm16zVGclLX7ag71',
+            'sshkeys': []}}
+
+Example C-6[em]NAPALM’s get_arp_table() Method
+
+[{'age': -1.0,
+  'interface': 'GigabitEthernet0/0/0',
+  'ip': '192.168.1.1',
+  'mac': '2C:73:A0:0A:6A:50'},
+ {'age': 0.0,
+  'interface': 'GigabitEthernet0/0/0',
+  'ip': '192.168.1.10',
+  'mac': '00:E0:4C:68:05:B6'},
+ {'age': -1.0,
+  'interface': 'GigabitEthernet0/0/1',
+  'ip': '192.168.2.1',
+  'mac': '2C:73:A0:0A:6A:51'}]
+
+Example C-7[em]NAPALM’s get_mac_address_table() Method
+
+[{'active': True,
+  'interface': '',
+  'last_move': -1.0,
+  'mac': '01:00:0C:CC:CC:CC',
+  'moves': -1,
+  'static': True,
+  'vlan': 0},
+ {'active': True,
+  'interface': '',
+  'last_move': -1.0,
+  'mac': '01:00:0C:CC:CC:CD',
+  'moves': -1,
+  'static': True,
+  'vlan': 0},
+ {'active': True,
+  'interface': '',
+  'last_move': -1.0,
+  'mac': '01:00:0C:CC:CC:CE',
+  'moves': -1,
+  'static': True,
+  'vlan': 0},
+<output omitted>
+ {'active': True,
+  'interface': '',
+  'last_move': -1.0,
+  'mac': '01:80:C2:00:00:10',
+  'moves': -1,
+  'static': True,
+  'vlan': 0}]
+
+How to Use These Dictionaries
+
+The dictionaries shown in this appendix are intended to be used as direct stand-ins for data returned by NAPALM methods. In a Python program, you can assign one of these dictionaries to a variable (for example, device_facts) and then access its keys exactly as you would if the data had been retrieved from a live network device.
+
+Because the structure of each dictionary matches the output format of the corresponding NAPALM method, any code that works with real NAPALM data will also work with these predefined examples. This makes them especially useful for learning, testing logic, and experimenting with Python without requiring access to physical or virtual network equipment.
+
+Important Note About These Examples
+
+The values shown in the dictionaries throughout this appendix are representative examples and are not meant to be complete or exhaustive. Actual NAPALM outputs may include additional keys, different values, or platform-specific variations, depending on the device type, operating system, and configuration.
+
+When writing production code, you should always account for the possibility that certain keys may be missing or that values may differ. However, for learning and experimentation purposes, the dictionaries provided here accurately reflect the structure and data types returned by common NAPALM methods.
+
+Mini Example: Switching Between Live NAPALM Data and a Dictionary
+Example C-8 shows how a Python program can retrieve device facts either from a live network device using NAPALM or from a predefined dictionary, like the ones shown in this appendix. The only difference between the two methods is how the device_facts variable is populated.
+
+Example C-8[em]Using Live NAPALM Data or a Dictionary
+
+from pprint import pprint
+
+# ----------------------------------------
+# Option 1: Use a predefined dictionary
+# (Uncomment this section to run offline)
+# ----------------------------------------
+
+device_facts = {
+    'fqdn': 'Router-R1.SSH-KEY.com',
+    'hostname': 'Router-R1',
+    'interface_list': [
+        'GigabitEthernet0/0/0',
+        'GigabitEthernet0/0/1',
+        'GigabitEthernet0/0/2',
+        'GigabitEthernet0'
+    ],
+    'model': 'ISR4331/K9',
+    'os_version': 'IOS XE 16.6.3',
+    'serial_number': 'FLM2229W1R6',
+    'uptime': 2820.0,
+    'vendor': 'Cisco'
+}
+
+# ----------------------------------------
+# Option 2: Use live NAPALM data
+# (Uncomment this section when hardware
+# or a virtual device is available)
+# ----------------------------------------
+
+"""
+from napalm import get_network_driver
+
+driver = get_network_driver("ios")
+device = driver(
+    hostname="192.168.1.1",
+    username="admin",
+    password="cisco"
+)
+
+device.open()
+device_facts = device.get_facts()
+device.close()
+"""
+
+# ----------------------------------------
+# Program logic (identical in both cases)
+# ----------------------------------------
+
+print(f"Hostname: {device_facts['hostname']}")
+print(f"Model: {device_facts['model']}")
+print(f"OS Version: {device_facts['os_version']}")
+print(f"Uptime (seconds): {device_facts['uptime']}")
+print("\nInterfaces:")
+pprint(device_facts['interface_list'])
