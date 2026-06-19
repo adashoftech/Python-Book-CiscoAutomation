@@ -5,11 +5,11 @@ import netmiko
 # Step 2: Establish an SSH connection to the device
 # The ConnectHandler method creates a connection using the provided device parameters.
 
-connection = netmiko.ConnectHandler(ip='192.168.1.1',
+connection = netmiko.ConnectHandler(ip='192.168.10.125',
                                     device_type='cisco_ios',
-                                    username='admin',
+                                    username='cisco',
                                     password='cisco',
-                                    secret='spot')
+                                    secret='cisco')
 
 # Step 3: Execute an IOS command and display the output
 # The send_command() method sends the 'show ip interface brief' command to the device.
